@@ -42,4 +42,11 @@ module Election
         trump_count = length(filter(x -> x == :trump, biden_or_trump))
         trump_count / n
     end
+    
+    function simulate_election_by_date(e)
+        e |> 
+        @groupby(_.modeldate) |> 
+        @map({date=key(_), trump=simulate_many(_, 1000)}) |> 
+        DataFrame
+    end
 end # module
